@@ -1,6 +1,6 @@
 const tracks = [
   { title: 'Ánh sáng và bóng tối', artist: 'AI Sound Studio', genre: 'AI Music', src: 'ánh sáng và bóng tối .mp3', cover: 'album-cover.jpg', durationHint: '05:37' },
-  { title: 'Synthetic Heart', artist: 'AI Sound Studio', genre: 'Future Pop', src: 'synthetic-heart.mp3', cover: 'synthetic-heart.jpg', durationHint: '04:21' },
+  { title: 'NO GPS', artist: 'AI Sound Studio', genre: 'AI Music', src: 'no-gps.mp3', cover: 'no-gps.jpg', durationHint: '02:29' },
   { title: 'Cosmic Memories', artist: 'AI Sound Studio', genre: 'Ambient R&B', src: 'cosmic-memories.mp3', cover: 'cosmic-memories.jpg', durationHint: '03:48' },
   { title: 'Echoes of You', artist: 'AI Sound Studio', genre: 'Dream Pop', src: 'echoes-of-you.mp3', cover: 'echoes-of-you.jpg', durationHint: '03:15' },
   { title: 'Digital Paradise', artist: 'AI Sound Studio', genre: 'Electronic', src: 'digital-paradise.mp3', cover: 'digital-paradise.jpg', durationHint: '03:59' }
