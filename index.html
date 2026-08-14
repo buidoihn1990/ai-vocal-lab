@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#09090f">
+  <title>AI Vocal Lab</title>
+  <meta name="description" content="AI-generated music, playlists and visualizers by AI Vocal Lab.">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="header">
+    <div class="container nav">
+      <a class="brand" href="#home"><span class="logo"></span>AI VOCAL LAB</a>
+      <nav class="links">
+        <a href="#home">Home</a><a href="#discover">Discover</a><a href="#playlists">Playlists</a><a href="#releases">Releases</a><a href="#about">About</a>
+      </nav>
+      <a class="btn btn-primary desktop-cta" href="#discover">Start Listening</a>
+      <button class="btn menu-btn" id="menuBtn" aria-label="Open menu">☰</button>
+    </div>
+  </header>
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="#home">Home</a><a href="#discover">Discover</a><a href="#playlists">Playlists</a><a href="#releases">Releases</a><a href="#about">About</a>
+  </div>
+
+  <main>
+    <section class="hero" id="home">
+      <div class="container hero-grid">
+        <div>
+          <div class="eyebrow">THE FUTURE OF MUSIC IS HERE</div>
+          <h1>Create the<br>Sound of<br><span class="gradient-text">Tomorrow</span></h1>
+          <p class="lead">Discover AI-generated tracks, immersive playlists and a new generation of digital artists.</p>
+          <div class="hero-actions">
+            <button class="btn btn-primary" id="listenBtn">▶ Listen Now</button>
+            <a class="btn" href="#discover">Explore Music</a>
+          </div>
+          <div class="stats">
+            <div><strong>10K+</strong><small>Listeners</small></div>
+            <div><strong>100+</strong><small>AI Tracks</small></div>
+            <div><strong>Weekly</strong><small>New Releases</small></div>
+          </div>
+        </div>
+        <div class="player">
+          <div class="art"></div>
+          <h3>Neon Horizon</h3>
+          <p>AI Vocal Lab</p>
+          <div class="wave" id="wave"></div>
+          <div class="controls"><button class="btn" id="prevBtn">Prev</button><button class="round" id="playBtn">▶</button><button class="btn" id="nextBtn">Next</button></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="discover"><div class="container"><div class="section-head"><span class="eyebrow">FEATURED MUSIC</span><h2>Tracks Worth Hearing</h2></div><div class="grid4">
+      <article class="card"><div class="cover c1"></div><h3>Midnight Machine</h3><p>AI Vocal Lab</p><div class="meta"><span>Neo Soul</span><span>03:52</span></div></article>
+      <article class="card"><div class="cover c2"></div><h3>Synthetic Heart</h3><p>AI Vocal Lab</p><div class="meta"><span>Future Pop</span><span>04:21</span></div></article>
+      <article class="card"><div class="cover c3"></div><h3>Cosmic Memories</h3><p>AI Vocal Lab</p><div class="meta"><span>Ambient R&B</span><span>03:48</span></div></article>
+      <article class="card"><div class="cover c4"></div><h3>Echoes of You</h3><p>AI Vocal Lab</p><div class="meta"><span>Dream Pop</span><span>03:15</span></div></article>
+    </div></div></section>
+
+    <section class="alt" id="playlists"><div class="container"><div class="section-head"><span class="eyebrow">TRENDING PLAYLISTS</span><h2>Music for Every Mood</h2></div><div class="grid4">
+      <article class="card"><div class="cover c4 no-play"></div><h3>AI Chill Nights</h3><p>12 Tracks</p></article>
+      <article class="card"><div class="cover c3 no-play"></div><h3>Future Bass Vision</h3><p>18 Tracks</p></article>
+      <article class="card"><div class="cover c2 no-play"></div><h3>Dreamwave Vocals</h3><p>15 Tracks</p></article>
+      <article class="card"><div class="cover c1 no-play"></div><h3>Cosmic Pop Flow</h3><p>20 Tracks</p></article>
+    </div></div></section>
+
+    <section id="releases"><div class="container"><div class="section-head"><span class="eyebrow">LATEST RELEASES</span><h2>Fresh From the Lab</h2></div><div class="releases" id="releaseList"></div></div></section>
+
+    <section class="alt" id="about"><div class="container"><div class="section-head"><span class="eyebrow">HOW IT WORKS</span><h2>From AI Idea to Finished Music</h2></div><div class="workflow">
+      <div class="step"><b>01</b><h3>Generate</h3><p>Create song ideas and demos in SunoAI.</p></div>
+      <div class="step"><b>02</b><h3>Produce</h3><p>Arrange and edit tracks in Cubase 15.</p></div>
+      <div class="step"><b>03</b><h3>Mix</h3><p>Balance vocals, music and effects.</p></div>
+      <div class="step"><b>04</b><h3>Master</h3><p>Polish loudness and final tone.</p></div>
+      <div class="step"><b>05</b><h3>Release</h3><p>Publish the finished song on YouTube.</p></div>
+    </div><div class="flow">SunoAI <span>→</span> Cubase 15 <span>→</span> Mix <span>→</span> Master <span>→</span> <em>YouTube</em></div></div></section>
+
+    <section><div class="container"><div class="section-head"><span class="eyebrow">FROM OUR YOUTUBE</span><h2>Watch the Music Come Alive</h2></div><div class="grid3">
+      <article class="card"><div class="video c1"></div><h3>Neon Horizon — Official Visualizer</h3><p>AI Vocal Lab • YouTube</p></article>
+      <article class="card"><div class="video c2"></div><h3>Synthetic Heart — Official Visualizer</h3><p>AI Vocal Lab • YouTube</p></article>
+      <article class="card"><div class="video c3"></div><h3>Cosmic Memories — Official Visualizer</h3><p>AI Vocal Lab • YouTube</p></article>
+    </div></div></section>
+
+    <section class="newsletter"><div class="container newsletter-inner"><div><h2>Never Miss a New Sound</h2><p>Get new AI music releases and exclusive playlists delivered directly to you.</p></div><form id="emailForm"><input type="email" required placeholder="Enter your email address"><button class="btn btn-primary">Join the Lab</button></form></div></section>
+  </main>
+
+  <footer><div class="container footer-grid"><div><div class="brand"><span class="logo"></span>AI VOCAL LAB</div><p>Music created beyond boundaries.</p></div><div><h4>EXPLORE</h4><a href="#home">Home</a><a href="#discover">Discover</a><a href="#playlists">Playlists</a></div><div><h4>COMPANY</h4><a href="#about">About</a><a href="#">Contact</a><a href="#">Privacy</a></div><div><h4>FOLLOW</h4><a href="#">YouTube</a><a href="#">TikTok</a><a href="#">Instagram</a></div></div></footer>
+  <div class="toast" id="toast"></div>
+  <script src="script.js"></script>
+</body>
+</html>
