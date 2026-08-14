@@ -4,763 +4,181 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
   <meta name="theme-color" content="#09090f">
-
   <title>AI Sound Studio</title>
-
-  <meta
-    name="description"
-    content="Khám phá âm nhạc AI, danh sách phát và các bản phát hành mới từ AI Sound Studio."
-  >
-
+  <meta name="description" content="Khám phá âm nhạc AI, danh sách phát và các bản phát hành mới từ AI Sound Studio.">
   <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
-
-  <!-- HEADER -->
   <header class="header">
     <div class="container nav">
-
-      <a class="brand" href="#home">
-        <span class="logo"></span>
-        AI SOUND STUDIO
-      </a>
-
+      <a class="brand" href="#home"><span class="logo"></span>AI SOUND STUDIO</a>
       <nav class="links">
-        <a href="#home">Trang chủ</a>
-        <a href="#discover">Phát hiện</a>
-        <a href="#playlists">Danh sách phát</a>
-        <a href="#releases">Phát hành</a>
-        <a href="#about">Về</a>
+        <a href="#home">Trang chủ</a><a href="#discover">Phát hiện</a><a href="#playlists">Danh sách phát</a><a href="#releases">Phát hành</a><a href="#about">Về</a>
       </nav>
-
-      <a class="btn btn-primary desktop-cta" href="#discover">
-        Bắt đầu nghe
-      </a>
-
-      <button
-        class="btn menu-btn"
-        id="menuBtn"
-        aria-label="Mở menu"
-      >
-        ☰
-      </button>
-
+      <a class="btn btn-primary desktop-cta" href="#discover">Bắt đầu nghe</a>
+      <button class="btn menu-btn" id="menuBtn" aria-label="Mở menu">☰</button>
     </div>
   </header>
 
-
-  <!-- MOBILE MENU -->
   <div class="mobile-menu" id="mobileMenu">
-    <a href="#home">Trang chủ</a>
-    <a href="#discover">Phát hiện</a>
-    <a href="#playlists">Danh sách phát</a>
-    <a href="#releases">Phát hành</a>
-    <a href="#about">Về</a>
+    <a href="#home">Trang chủ</a><a href="#discover">Phát hiện</a><a href="#playlists">Danh sách phát</a><a href="#releases">Phát hành</a><a href="#about">Về</a>
   </div>
 
-
   <main>
-
-    <!-- HERO -->
     <section class="hero" id="home">
-
       <div class="container hero-grid">
-
-        <!-- HERO LEFT -->
-        <div>
-
-          <div class="eyebrow">
-            TƯƠNG LAI CỦA ÂM NHẠC ĐÃ ĐẾN
-          </div>
-
-          <h1>
-            Kiến tạo<br>
-            âm thanh của<br>
-            <span class="gradient-text">ngày mai</span>
-          </h1>
-
-          <p class="lead">
-            Khám phá các bản nhạc do AI tạo ra,
-            danh sách phát hấp dẫn và thế hệ nghệ sĩ
-            kỹ thuật số mới.
-          </p>
-
+        <div class="hero-copy">
+          <div class="eyebrow">TƯƠNG LAI CỦA ÂM NHẠC ĐÃ ĐẾN</div>
+          <h1>Kiến tạo<br>âm thanh của<br><span class="gradient-text">ngày mai</span></h1>
+          <p class="lead">Khám phá các bản nhạc do AI tạo ra, danh sách phát hấp dẫn và thế hệ nghệ sĩ kỹ thuật số mới.</p>
           <div class="hero-actions">
-
-            <button
-              class="btn btn-primary"
-              id="listenBtn"
-            >
-              ▶ Nghe ngay
-            </button>
-
-            <a
-              class="btn"
-              href="#discover"
-            >
-              Khám phá âm nhạc
-            </a>
-
+            <button class="btn btn-primary" id="listenBtn">▶ Nghe ngay</button>
+            <a class="btn" href="#discover">Khám phá âm nhạc</a>
           </div>
-
-
-          <!-- STATS -->
           <div class="stats">
-
-            <div>
-              <strong>Hơn 10.000</strong>
-              <small>Người nghe</small>
-            </div>
-
-            <div>
-              <strong>Hơn 100</strong>
-              <small>AI Tracks</small>
-            </div>
-
-            <div>
-              <strong>Hàng tuần</strong>
-              <small>Sản phẩm mới ra mắt</small>
-            </div>
-
+            <div><strong>Hơn 10.000</strong><small>Người nghe</small></div>
+            <div><strong>Hơn 100</strong><small>AI Tracks</small></div>
+            <div><strong>Hàng tuần</strong><small>Sản phẩm mới ra mắt</small></div>
           </div>
-
         </div>
 
-
-        <!-- PLAYER -->
-        <div class="player">
-
-          <div class="art"></div>
-
-          <h3>
-            Ánh sáng và bóng tối
-          </h3>
-
-          <p>
-            AI Sound Studio
-          </p>
-
-
-          <!-- REAL AUDIO FILE -->
-          <audio
-            id="audioPlayer"
-            preload="metadata"
-            src="ánh sáng và bóng tối .mp3"
-          ></audio>
-
-
-          <!-- WAVEFORM -->
-          <div
-            class="wave"
-            id="wave"
-          ></div>
-
-
-          <!-- PLAYER CONTROLS -->
-          <div class="controls">
-
-            <button
-              class="btn"
-              id="prevBtn"
-            >
-              Trước đó
-            </button>
-
-            <button
-              class="round"
-              id="playBtn"
-              aria-label="Phát hoặc tạm dừng"
-            >
-              ▶
-            </button>
-
-            <button
-              class="btn"
-              id="nextBtn"
-            >
-              Kế tiếp
-            </button>
-
+        <aside class="player" id="mainPlayer">
+          <div class="player-cover-wrap">
+            <img id="albumCover" class="album-cover" alt="Bìa album Ánh sáng và bóng tối">
+            <div id="coverFallback" class="art cover-fallback"><span>AI SOUND STUDIO</span></div>
+            <div class="playing-badge" id="playingBadge">SẴN SÀNG</div>
           </div>
 
-        </div>
+          <div class="track-head">
+            <div>
+              <h3 id="trackTitle">Ánh sáng và bóng tối</h3>
+              <p id="trackArtist">AI Sound Studio</p>
+            </div>
+            <button class="icon-btn" id="favoriteBtn" aria-label="Yêu thích">♡</button>
+          </div>
 
+          <audio id="audioPlayer" preload="metadata" src="ánh sáng và bóng tối .mp3"></audio>
+
+          <div class="wave" id="wave" aria-label="Waveform"></div>
+
+          <div class="progress-shell">
+            <input type="range" id="progressBar" class="range progress-range" min="0" max="1000" value="0" aria-label="Tiến trình bài hát">
+            <div class="time-row"><span id="currentTime">0:00</span><span id="duration">0:00</span></div>
+          </div>
+
+          <div class="transport">
+            <button class="icon-btn" id="shuffleBtn" title="Phát ngẫu nhiên">⇄</button>
+            <button class="icon-btn" id="prevTrackBtn" title="Bài trước">⏮</button>
+            <button class="seek-btn" id="back10Btn" title="Lùi 10 giây">↶<small>10</small></button>
+            <button class="round play-main" id="playBtn" aria-label="Phát hoặc tạm dừng">▶</button>
+            <button class="seek-btn" id="forward10Btn" title="Tới 10 giây">↷<small>10</small></button>
+            <button class="icon-btn" id="nextTrackBtn" title="Bài tiếp theo">⏭</button>
+            <button class="icon-btn" id="repeatBtn" title="Lặp lại">↻</button>
+          </div>
+
+          <div class="player-tools">
+            <button class="icon-btn" id="muteBtn" aria-label="Tắt tiếng">🔊</button>
+            <input type="range" id="volumeBar" class="range volume-range" min="0" max="100" value="85" aria-label="Âm lượng">
+            <select id="speedSelect" class="speed-select" aria-label="Tốc độ phát">
+              <option value="0.75">0.75×</option><option value="1" selected>1×</option><option value="1.25">1.25×</option><option value="1.5">1.5×</option><option value="2">2×</option>
+            </select>
+            <span class="status-text" id="playerStatus">Sẵn sàng phát</span>
+          </div>
+
+          <div class="queue-box">
+            <div class="queue-head"><strong>Hàng đợi phát</strong><span id="availableCount">Đang kiểm tra...</span></div>
+            <div class="queue-list" id="playlistQueue"></div>
+          </div>
+        </aside>
       </div>
-
     </section>
 
-
-    <!-- FEATURED MUSIC -->
     <section id="discover">
-
       <div class="container">
-
-        <div class="section-head">
-
-          <span class="eyebrow">
-            ÂM NHẠC NỔI BẬT
-          </span>
-
-          <h2>
-            Những bản nhạc đáng nghe
-          </h2>
-
-        </div>
-
-
+        <div class="section-head"><span class="eyebrow">ÂM NHẠC NỔI BẬT</span><h2>Những bản nhạc đáng nghe</h2></div>
         <div class="grid4">
-
-          <!-- TRACK 1 -->
-          <article class="card">
-
-            <div class="cover c1"></div>
-
-            <h3>
-              Ánh sáng và bóng tối
-            </h3>
-
-            <p>
-              AI Sound Studio
-            </p>
-
-            <div class="meta">
-              <span>AI Music</span>
-              <span>05:37</span>
-            </div>
-
-          </article>
-
-
-          <!-- TRACK 2 -->
-          <article class="card">
-
-            <div class="cover c2"></div>
-
-            <h3>
-              Synthetic Heart
-            </h3>
-
-            <p>
-              AI Sound Studio
-            </p>
-
-            <div class="meta">
-              <span>Future Pop</span>
-              <span>04:21</span>
-            </div>
-
-          </article>
-
-
-          <!-- TRACK 3 -->
-          <article class="card">
-
-            <div class="cover c3"></div>
-
-            <h3>
-              Cosmic Memories
-            </h3>
-
-            <p>
-              AI Sound Studio
-            </p>
-
-            <div class="meta">
-              <span>Ambient R&B</span>
-              <span>03:48</span>
-            </div>
-
-          </article>
-
-
-          <!-- TRACK 4 -->
-          <article class="card">
-
-            <div class="cover c4"></div>
-
-            <h3>
-              Echoes of You
-            </h3>
-
-            <p>
-              AI Sound Studio
-            </p>
-
-            <div class="meta">
-              <span>Dream Pop</span>
-              <span>03:15</span>
-            </div>
-
-          </article>
-
+          <article class="card track-card" data-track="0"><div class="cover c1"></div><h3>Ánh sáng và bóng tối</h3><p>AI Sound Studio</p><div class="meta"><span>AI Music</span><span>Phát ngay</span></div></article>
+          <article class="card track-card" data-track="1"><div class="cover c2"></div><h3>Synthetic Heart</h3><p>AI Sound Studio</p><div class="meta"><span>Future Pop</span><span>Chờ MP3</span></div></article>
+          <article class="card track-card" data-track="2"><div class="cover c3"></div><h3>Cosmic Memories</h3><p>AI Sound Studio</p><div class="meta"><span>Ambient R&B</span><span>Chờ MP3</span></div></article>
+          <article class="card track-card" data-track="3"><div class="cover c4"></div><h3>Echoes of You</h3><p>AI Sound Studio</p><div class="meta"><span>Dream Pop</span><span>Chờ MP3</span></div></article>
         </div>
-
       </div>
-
     </section>
 
-
-    <!-- PLAYLISTS -->
-    <section
-      class="alt"
-      id="playlists"
-    >
-
+    <section class="alt" id="playlists">
       <div class="container">
-
-        <div class="section-head">
-
-          <span class="eyebrow">
-            DANH SÁCH PHÁT THỊNH HÀNH
-          </span>
-
-          <h2>
-            Âm nhạc cho mọi cảm xúc
-          </h2>
-
-        </div>
-
-
+        <div class="section-head"><span class="eyebrow">DANH SÁCH PHÁT</span><h2>Player đã sẵn sàng cho nhiều bài thật</h2></div>
+        <p class="section-note">Khi bạn tải thêm MP3 đúng tên file, website sẽ tự nhận diện, bật nút phát và tự chuyển bài.</p>
         <div class="grid4">
-
-          <article class="card">
-
-            <div class="cover c4 no-play"></div>
-
-            <h3>
-              AI Chill Nights
-            </h3>
-
-            <p>
-              12 Tracks
-            </p>
-
-          </article>
-
-
-          <article class="card">
-
-            <div class="cover c3 no-play"></div>
-
-            <h3>
-              Future Bass Vision
-            </h3>
-
-            <p>
-              18 Tracks
-            </p>
-
-          </article>
-
-
-          <article class="card">
-
-            <div class="cover c2 no-play"></div>
-
-            <h3>
-              Dreamwave Vocals
-            </h3>
-
-            <p>
-              15 Tracks
-            </p>
-
-          </article>
-
-
-          <article class="card">
-
-            <div class="cover c1 no-play"></div>
-
-            <h3>
-              Cosmic Pop Flow
-            </h3>
-
-            <p>
-              20 Tracks
-            </p>
-
-          </article>
-
+          <article class="card"><div class="cover c4 no-play"></div><h3>AI Chill Nights</h3><p>Playlist</p></article>
+          <article class="card"><div class="cover c3 no-play"></div><h3>Future Bass Vision</h3><p>Playlist</p></article>
+          <article class="card"><div class="cover c2 no-play"></div><h3>Dreamwave Vocals</h3><p>Playlist</p></article>
+          <article class="card"><div class="cover c1 no-play"></div><h3>Cosmic Pop Flow</h3><p>Playlist</p></article>
         </div>
-
       </div>
-
     </section>
 
-
-    <!-- LATEST RELEASES -->
     <section id="releases">
-
       <div class="container">
-
-        <div class="section-head">
-
-          <span class="eyebrow">
-            PHÁT HÀNH MỚI NHẤT
-          </span>
-
-          <h2>
-            Âm nhạc mới từ AI Sound Studio
-          </h2>
-
-        </div>
-
-
-        <div
-          class="releases"
-          id="releaseList"
-        ></div>
-
+        <div class="section-head"><span class="eyebrow">PHÁT HÀNH MỚI NHẤT</span><h2>Âm nhạc mới từ AI Sound Studio</h2></div>
+        <div class="releases" id="releaseList"></div>
       </div>
-
     </section>
 
-
-    <!-- HOW IT WORKS -->
-    <section
-      class="alt"
-      id="about"
-    >
-
+    <section class="alt" id="about">
       <div class="container">
-
-        <div class="section-head">
-
-          <span class="eyebrow">
-            QUY TRÌNH SÁNG TẠO
-          </span>
-
-          <h2>
-            Từ ý tưởng AI đến bài hát hoàn chỉnh
-          </h2>
-
-        </div>
-
-
+        <div class="section-head"><span class="eyebrow">QUY TRÌNH SÁNG TẠO</span><h2>Từ ý tưởng AI đến bài hát hoàn chỉnh</h2></div>
         <div class="workflow">
-
-          <div class="step">
-
-            <b>01</b>
-
-            <h3>
-              Generate
-            </h3>
-
-            <p>
-              Tạo ý tưởng và bản demo bằng SunoAI.
-            </p>
-
-          </div>
-
-
-          <div class="step">
-
-            <b>02</b>
-
-            <h3>
-              Produce
-            </h3>
-
-            <p>
-              Sắp xếp và chỉnh sửa bài hát trong Cubase 15.
-            </p>
-
-          </div>
-
-
-          <div class="step">
-
-            <b>03</b>
-
-            <h3>
-              Mix
-            </h3>
-
-            <p>
-              Cân bằng vocal, nhạc cụ và hiệu ứng.
-            </p>
-
-          </div>
-
-
-          <div class="step">
-
-            <b>04</b>
-
-            <h3>
-              Master
-            </h3>
-
-            <p>
-              Hoàn thiện âm lượng và chất lượng âm thanh cuối cùng.
-            </p>
-
-          </div>
-
-
-          <div class="step">
-
-            <b>05</b>
-
-            <h3>
-              Release
-            </h3>
-
-            <p>
-              Phát hành bài hát hoàn chỉnh trên YouTube.
-            </p>
-
-          </div>
-
+          <div class="step"><b>01</b><h3>Generate</h3><p>Tạo ý tưởng và bản demo bằng SunoAI.</p></div>
+          <div class="step"><b>02</b><h3>Produce</h3><p>Sắp xếp và chỉnh sửa bài hát trong Cubase 15.</p></div>
+          <div class="step"><b>03</b><h3>Mix</h3><p>Cân bằng vocal, nhạc cụ và hiệu ứng.</p></div>
+          <div class="step"><b>04</b><h3>Master</h3><p>Hoàn thiện âm lượng và chất lượng âm thanh cuối cùng.</p></div>
+          <div class="step"><b>05</b><h3>Release</h3><p>Phát hành bài hát hoàn chỉnh trên YouTube.</p></div>
         </div>
-
-
-        <div class="flow">
-
-          SunoAI
-
-          <span>→</span>
-
-          Cubase 15
-
-          <span>→</span>
-
-          Mix
-
-          <span>→</span>
-
-          Master
-
-          <span>→</span>
-
-          <em>YouTube</em>
-
-        </div>
-
+        <div class="flow">SunoAI <span>→</span> Cubase 15 <span>→</span> Mix <span>→</span> Master <span>→</span> <em>YouTube</em></div>
       </div>
-
     </section>
 
-
-    <!-- YOUTUBE -->
     <section>
-
       <div class="container">
-
-        <div class="section-head">
-
-          <span class="eyebrow">
-            TỪ YOUTUBE
-          </span>
-
-          <h2>
-            Xem âm nhạc trở thành hình ảnh
-          </h2>
-
-        </div>
-
-
+        <div class="section-head"><span class="eyebrow">TỪ YOUTUBE</span><h2>Xem âm nhạc trở thành hình ảnh</h2></div>
         <div class="grid3">
-
-          <article class="card">
-
-            <div class="video c1"></div>
-
-            <h3>
-              Ánh sáng và bóng tối — Official Visualizer
-            </h3>
-
-            <p>
-              AI Sound Studio • YouTube
-            </p>
-
-          </article>
-
-
-          <article class="card">
-
-            <div class="video c2"></div>
-
-            <h3>
-              Synthetic Heart — Official Visualizer
-            </h3>
-
-            <p>
-              AI Sound Studio • YouTube
-            </p>
-
-          </article>
-
-
-          <article class="card">
-
-            <div class="video c3"></div>
-
-            <h3>
-              Cosmic Memories — Official Visualizer
-            </h3>
-
-            <p>
-              AI Sound Studio • YouTube
-            </p>
-
-          </article>
-
+          <article class="card"><div class="video c1"></div><h3>Ánh sáng và bóng tối — Official Visualizer</h3><p>AI Sound Studio • YouTube</p></article>
+          <article class="card"><div class="video c2"></div><h3>Synthetic Heart — Official Visualizer</h3><p>AI Sound Studio • YouTube</p></article>
+          <article class="card"><div class="video c3"></div><h3>Cosmic Memories — Official Visualizer</h3><p>AI Sound Studio • YouTube</p></article>
         </div>
-
       </div>
-
     </section>
 
-
-    <!-- NEWSLETTER -->
     <section class="newsletter">
-
       <div class="container newsletter-inner">
-
-        <div>
-
-          <h2>
-            Đừng bỏ lỡ âm thanh mới
-          </h2>
-
-          <p>
-            Nhận các bản phát hành AI Music và playlist mới
-            trực tiếp từ AI Sound Studio.
-          </p>
-
-        </div>
-
-
-        <form id="emailForm">
-
-          <input
-            type="email"
-            required
-            placeholder="Nhập email của bạn"
-          >
-
-          <button
-            class="btn btn-primary"
-            type="submit"
-          >
-            Tham gia
-          </button>
-
-        </form>
-
+        <div><h2>Đừng bỏ lỡ âm thanh mới</h2><p>Nhận các bản phát hành AI Music và playlist mới trực tiếp từ AI Sound Studio.</p></div>
+        <form id="emailForm"><input type="email" required placeholder="Nhập email của bạn"><button class="btn btn-primary" type="submit">Tham gia</button></form>
       </div>
-
     </section>
-
   </main>
 
-
-  <!-- FOOTER -->
   <footer>
-
     <div class="container footer-grid">
-
-      <div>
-
-        <div class="brand">
-
-          <span class="logo"></span>
-
-          AI SOUND STUDIO
-
-        </div>
-
-        <p>
-          Âm nhạc được tạo ra vượt mọi giới hạn.
-        </p>
-
-      </div>
-
-
-      <div>
-
-        <h4>
-          KHÁM PHÁ
-        </h4>
-
-        <a href="#home">
-          Trang chủ
-        </a>
-
-        <a href="#discover">
-          Phát hiện
-        </a>
-
-        <a href="#playlists">
-          Danh sách phát
-        </a>
-
-        <a href="#releases">
-          Phát hành
-        </a>
-
-      </div>
-
-
-      <div>
-
-        <h4>
-          THÔNG TIN
-        </h4>
-
-        <a href="#about">
-          Về chúng tôi
-        </a>
-
-        <a href="#">
-          Liên hệ
-        </a>
-
-        <a href="#">
-          Chính sách bảo mật
-        </a>
-
-      </div>
-
-
-      <div>
-
-        <h4>
-          THEO DÕI
-        </h4>
-
-        <a href="#">
-          YouTube
-        </a>
-
-        <a href="#">
-          TikTok
-        </a>
-
-        <a href="#">
-          Instagram
-        </a>
-
-      </div>
-
+      <div><div class="brand"><span class="logo"></span>AI SOUND STUDIO</div><p>Âm nhạc được tạo ra vượt mọi giới hạn.</p></div>
+      <div><h4>KHÁM PHÁ</h4><a href="#home">Trang chủ</a><a href="#discover">Phát hiện</a><a href="#playlists">Danh sách phát</a><a href="#releases">Phát hành</a></div>
+      <div><h4>THÔNG TIN</h4><a href="#about">Về chúng tôi</a><a href="#">Liên hệ</a><a href="#">Chính sách bảo mật</a></div>
+      <div><h4>THEO DÕI</h4><a href="#">YouTube</a><a href="#">TikTok</a><a href="#">Instagram</a></div>
     </div>
-
   </footer>
 
+  <div class="mini-player" id="miniPlayer" aria-label="Mini player">
+    <div class="mini-cover"><img id="miniCover" alt="Bìa bài hát"><div id="miniCoverFallback"></div></div>
+    <div class="mini-info"><strong id="miniTitle">Ánh sáng và bóng tối</strong><span id="miniArtist">AI Sound Studio</span></div>
+    <button class="mini-icon" id="miniPrev">⏮</button>
+    <button class="mini-play" id="miniPlay">▶</button>
+    <button class="mini-icon" id="miniNext">⏭</button>
+    <div class="mini-progress-wrap"><input type="range" id="miniProgress" class="range mini-progress" min="0" max="1000" value="0"><span id="miniTime">0:00 / 0:00</span></div>
+    <button class="mini-icon" id="miniMute">🔊</button>
+    <button class="mini-close" id="miniClose" aria-label="Ẩn mini player">×</button>
+  </div>
 
-  <!-- TOAST -->
-  <div
-    class="toast"
-    id="toast"
-  ></div>
-
-
-  <!-- JAVASCRIPT -->
+  <div class="toast" id="toast"></div>
   <script src="script.js"></script>
-
 </body>
 </html>
