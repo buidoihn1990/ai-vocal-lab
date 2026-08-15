@@ -7,21 +7,22 @@
   <title>AI Sound Studio</title>
   <meta name="description" content="Khám phá âm nhạc AI, danh sách phát và các bản phát hành mới từ AI Sound Studio.">
   <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="upload.css">
 </head>
 <body>
   <header class="header">
     <div class="container nav">
       <a class="brand" href="#home"><span class="logo"></span>AI SOUND STUDIO</a>
       <nav class="links">
-        <a href="#home">Trang chủ</a><a href="#discover">Phát hiện</a><a href="#playlists">Danh sách phát</a><a href="#releases">Phát hành</a><a href="#about">Về</a>
+        <a href="#home">Trang chủ</a><a href="#discover">Phát hiện</a><a href="#playlists">Danh sách phát</a><a href="#upload">Tải lên</a><a href="#releases">Phát hành</a><a href="#about">Về</a>
       </nav>
-      <a class="btn btn-primary desktop-cta" href="#discover">Bắt đầu nghe</a>
+      <a class="btn btn-primary desktop-cta" href="#upload">Tải nhạc lên</a>
       <button class="btn menu-btn" id="menuBtn" aria-label="Mở menu">☰</button>
     </div>
   </header>
 
   <div class="mobile-menu" id="mobileMenu">
-    <a href="#home">Trang chủ</a><a href="#discover">Phát hiện</a><a href="#playlists">Danh sách phát</a><a href="#releases">Phát hành</a><a href="#about">Về</a>
+    <a href="#home">Trang chủ</a><a href="#discover">Phát hiện</a><a href="#playlists">Danh sách phát</a><a href="#upload">Tải nhạc lên</a><a href="#releases">Phát hành</a><a href="#about">Về</a>
   </div>
 
   <main>
@@ -98,9 +99,9 @@
         <div class="section-head"><span class="eyebrow">ÂM NHẠC NỔI BẬT</span><h2>Những bản nhạc đáng nghe</h2></div>
         <div class="grid4">
           <article class="card track-card" data-track="0"><div class="cover c1"></div><h3>Ánh sáng và bóng tối</h3><p>AI Sound Studio</p><div class="meta"><span>AI Music</span><span>Phát ngay</span></div></article>
-          <article class="card track-card" data-track="1"><div class="cover c2"></div><h3>Synthetic Heart</h3><p>AI Sound Studio</p><div class="meta"><span>Future Pop</span><span>Chờ MP3</span></div></article>
-          <article class="card track-card" data-track="2"><div class="cover c3"></div><h3>Cosmic Memories</h3><p>AI Sound Studio</p><div class="meta"><span>Ambient R&B</span><span>Chờ MP3</span></div></article>
-          <article class="card track-card" data-track="3"><div class="cover c4"></div><h3>Echoes of You</h3><p>AI Sound Studio</p><div class="meta"><span>Dream Pop</span><span>Chờ MP3</span></div></article>
+          <article class="card track-card" data-track="1"><div class="cover c2"></div><h3>NO GPS</h3><p>AI Sound Studio</p><div class="meta"><span>AI Music</span><span>Phát ngay</span></div></article>
+          <article class="card track-card" data-track="2"><div class="cover c3"></div><h3>I only need you</h3><p>AI Sound Studio</p><div class="meta"><span>AI Music</span><span>Phát ngay</span></div></article>
+          <article class="card track-card" data-track="3"><div class="cover c4"></div><h3>Cosmic Memories</h3><p>AI Sound Studio</p><div class="meta"><span>Ambient R&amp;B</span><span>Chờ MP3</span></div></article>
         </div>
       </div>
     </section>
@@ -108,13 +109,79 @@
     <section class="alt" id="playlists">
       <div class="container">
         <div class="section-head"><span class="eyebrow">DANH SÁCH PHÁT</span><h2>Player đã sẵn sàng cho nhiều bài thật</h2></div>
-        <p class="section-note">Khi bạn tải thêm MP3 đúng tên file, website sẽ tự nhận diện, bật nút phát và tự chuyển bài.</p>
+        <p class="section-note">Các bài MP3 trong GitHub và các bài tải lên Cloudflare R2 đều có thể phát trực tiếp trong player.</p>
         <div class="grid4">
           <article class="card"><div class="cover c4 no-play"></div><h3>AI Chill Nights</h3><p>Playlist</p></article>
           <article class="card"><div class="cover c3 no-play"></div><h3>Future Bass Vision</h3><p>Playlist</p></article>
           <article class="card"><div class="cover c2 no-play"></div><h3>Dreamwave Vocals</h3><p>Playlist</p></article>
           <article class="card"><div class="cover c1 no-play"></div><h3>Cosmic Pop Flow</h3><p>Playlist</p></article>
         </div>
+      </div>
+    </section>
+
+    <section class="upload-section" id="upload">
+      <div class="container upload-layout">
+        <div class="upload-intro">
+          <span class="eyebrow">CLOUDFLARE R2 UPLOAD</span>
+          <h2>Tải nhạc trực tiếp lên AI Sound Studio</h2>
+          <p>Chọn file MP3 từ máy tính, nhập thông tin bài hát và mã tải lên. File sẽ được gửi qua Cloudflare Worker rồi lưu thẳng vào R2, không cần đưa MP3 lên GitHub.</p>
+          <div class="upload-note"><strong>Bản đầu tiên:</strong> bài vừa tải sẽ được thêm ngay vào playlist và được nhớ trên trình duyệt này. Để tất cả người nghe trên mọi thiết bị đều thấy bài mới sau khi tải lại trang, bước tiếp theo sẽ kết nối cơ sở dữ liệu Cloudflare D1.</div>
+        </div>
+
+        <form class="upload-card" id="musicUploadForm">
+          <div class="upload-grid">
+            <div class="upload-field">
+              <label for="uploadTitle">Tên bài hát</label>
+              <input id="uploadTitle" type="text" maxlength="120" placeholder="Ví dụ: Midnight Dream">
+            </div>
+            <div class="upload-field">
+              <label for="uploadArtist">Nghệ sĩ</label>
+              <input id="uploadArtist" type="text" maxlength="100" value="AI Sound Studio" placeholder="Tên nghệ sĩ">
+            </div>
+            <div class="upload-field">
+              <label for="uploadGenre">Thể loại</label>
+              <select id="uploadGenre">
+                <option>AI Music</option>
+                <option>R&amp;B</option>
+                <option>Pop</option>
+                <option>Dream Pop</option>
+                <option>Ambient R&amp;B</option>
+                <option>Electronic</option>
+                <option>Jazz</option>
+                <option>Folk</option>
+              </select>
+            </div>
+            <div class="upload-field">
+              <label for="uploadPassword">Mã tải lên</label>
+              <input id="uploadPassword" type="password" autocomplete="off" placeholder="Nhập UPLOAD_SECRET">
+            </div>
+            <div class="upload-field full upload-file">
+              <label for="musicFile">File MP3</label>
+              <input id="musicFile" type="file" accept=".mp3,audio/mpeg">
+              <small>Tối đa 50 MB • hiện tại hỗ trợ MP3</small>
+            </div>
+          </div>
+
+          <div class="upload-actions">
+            <button class="btn btn-primary upload-submit" id="uploadMusicBtn" type="submit">🎵 Tải nhạc lên</button>
+            <span class="upload-health" id="uploadHealth">Đang kiểm tra máy chủ tải lên...</span>
+          </div>
+
+          <div class="upload-progress-wrap" id="uploadProgressWrap">
+            <div class="upload-progress-head"><span>Tiến trình tải lên</span><strong id="uploadPercent">0%</strong></div>
+            <progress class="upload-progress" id="uploadProgress" value="0" max="100"></progress>
+          </div>
+
+          <p class="upload-status" id="uploadStatus">Chọn một bài MP3 để bắt đầu.</p>
+
+          <div class="upload-result" id="uploadResult">
+            <strong>Đã lưu file trên Cloudflare R2</strong>
+            <a id="uploadResultLink" href="#" target="_blank" rel="noopener">Mở file</a>
+            <div class="upload-actions"><button class="btn" id="playUploadedBtn" type="button">▶ Phát bài vừa tải</button></div>
+          </div>
+
+          <div class="upload-security"><span>●</span><div>Mã tải lên chỉ được gửi qua HTTPS đến Worker trong lần tải này và không được lưu vào localStorage hay GitHub.</div></div>
+        </form>
       </div>
     </section>
 
@@ -144,8 +211,8 @@
         <div class="section-head"><span class="eyebrow">TỪ YOUTUBE</span><h2>Xem âm nhạc trở thành hình ảnh</h2></div>
         <div class="grid3">
           <article class="card"><div class="video c1"></div><h3>Ánh sáng và bóng tối — Official Visualizer</h3><p>AI Sound Studio • YouTube</p></article>
-          <article class="card"><div class="video c2"></div><h3>Synthetic Heart — Official Visualizer</h3><p>AI Sound Studio • YouTube</p></article>
-          <article class="card"><div class="video c3"></div><h3>Cosmic Memories — Official Visualizer</h3><p>AI Sound Studio • YouTube</p></article>
+          <article class="card"><div class="video c2"></div><h3>NO GPS — Official Visualizer</h3><p>AI Sound Studio • YouTube</p></article>
+          <article class="card"><div class="video c3"></div><h3>I only need you — Official Visualizer</h3><p>AI Sound Studio • YouTube</p></article>
         </div>
       </div>
     </section>
@@ -161,7 +228,7 @@
   <footer>
     <div class="container footer-grid">
       <div><div class="brand"><span class="logo"></span>AI SOUND STUDIO</div><p>Âm nhạc được tạo ra vượt mọi giới hạn.</p></div>
-      <div><h4>KHÁM PHÁ</h4><a href="#home">Trang chủ</a><a href="#discover">Phát hiện</a><a href="#playlists">Danh sách phát</a><a href="#releases">Phát hành</a></div>
+      <div><h4>KHÁM PHÁ</h4><a href="#home">Trang chủ</a><a href="#discover">Phát hiện</a><a href="#playlists">Danh sách phát</a><a href="#upload">Tải nhạc lên</a><a href="#releases">Phát hành</a></div>
       <div><h4>THÔNG TIN</h4><a href="#about">Về chúng tôi</a><a href="#">Liên hệ</a><a href="#">Chính sách bảo mật</a></div>
       <div><h4>THEO DÕI</h4><a href="#">YouTube</a><a href="#">TikTok</a><a href="#">Instagram</a></div>
     </div>
@@ -180,5 +247,6 @@
 
   <div class="toast" id="toast"></div>
   <script src="script.js"></script>
+  <script src="upload.js"></script>
 </body>
 </html>
