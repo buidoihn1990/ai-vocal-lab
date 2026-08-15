@@ -8,6 +8,7 @@
   <meta name="description" content="Khám phá âm nhạc AI, danh sách phát và các bản phát hành mới từ AI Sound Studio.">
   <link rel="stylesheet" href="style.css">
   <link rel="stylesheet" href="upload.css">
+  <link rel="stylesheet" href="auth.css">
 </head>
 <body>
   <header class="header">
@@ -16,7 +17,16 @@
       <nav class="links">
         <a href="#home">Trang chủ</a><a href="#discover">Phát hiện</a><a href="#playlists">Danh sách phát</a><a href="#upload">Tải lên</a><a href="#releases">Phát hành</a><a href="#about">Về</a>
       </nav>
-      <a class="btn btn-primary desktop-cta" href="#upload">Tải nhạc lên</a>
+      <div class="auth-nav">
+        <button class="btn btn-primary auth-open" id="authOpenBtn" type="button">Đăng nhập</button>
+        <div class="auth-user-chip" id="authUserChip">
+          <div class="auth-user-copy">
+            <span class="auth-user-email" id="authUserEmail"></span>
+            <span class="auth-role-badge" id="authRoleBadge">Listener</span>
+          </div>
+          <button class="auth-logout" id="authLogoutBtn" type="button">Đăng xuất</button>
+        </div>
+      </div>
       <button class="btn menu-btn" id="menuBtn" aria-label="Mở menu">☰</button>
     </div>
   </header>
@@ -122,25 +132,33 @@
     <section class="upload-section" id="upload">
       <div class="container upload-layout">
         <div class="upload-intro">
-          <span class="eyebrow">CLOUDFLARE R2 UPLOAD</span>
-          <h2>Tải nhạc trực tiếp lên AI Sound Studio</h2>
-          <p>Chọn file MP3 từ máy tính, nhập thông tin bài hát và mã tải lên. File sẽ được gửi qua Cloudflare Worker rồi lưu thẳng vào R2, không cần đưa MP3 lên GitHub.</p>
-          <div class="upload-note"><strong>Bản đầu tiên:</strong> bài vừa tải sẽ được thêm ngay vào playlist và được nhớ trên trình duyệt này. Để tất cả người nghe trên mọi thiết bị đều thấy bài mới sau khi tải lại trang, bước tiếp theo sẽ kết nối cơ sở dữ liệu Cloudflare D1.</div>
+          <span class="eyebrow">TÀI KHOẢN + CLOUDFLARE R2 + D1</span>
+          <h2>Tải nhạc bằng tài khoản AI Sound Studio</h2>
+          <p>Người dùng đăng ký hoặc đăng nhập bằng email. Worker xác minh tài khoản trước khi cho tải MP3 lên R2, còn thông tin bài hát được lưu ở D1 để playlist đồng bộ trên mọi thiết bị.</p>
+          <div class="upload-note"><strong>Quyền tải lên riêng:</strong> tài khoản mới mặc định chỉ nghe nhạc. Quản trị viên có thể bật quyền tải nhạc cho từng tài khoản bằng trường <code>can_upload</code> trong Cloudflare D1.</div>
         </div>
 
         <form class="upload-card" id="musicUploadForm">
+          <div class="upload-auth-banner" id="uploadAuthBanner">
+            <div>
+              <strong id="uploadAuthTitle">Đang kiểm tra tài khoản...</strong>
+              <span id="uploadAuthText">Hệ thống sẽ xác minh đăng nhập và quyền tải lên.</span>
+            </div>
+            <button class="btn" id="uploadLoginBtn" type="button">Đăng nhập</button>
+          </div>
+
           <div class="upload-grid">
             <div class="upload-field">
               <label for="uploadTitle">Tên bài hát</label>
-              <input id="uploadTitle" type="text" maxlength="120" placeholder="Ví dụ: Midnight Dream">
+              <input id="uploadTitle" type="text" maxlength="120" placeholder="Ví dụ: Midnight Dream" disabled>
             </div>
             <div class="upload-field">
               <label for="uploadArtist">Nghệ sĩ</label>
-              <input id="uploadArtist" type="text" maxlength="100" value="AI Sound Studio" placeholder="Tên nghệ sĩ">
+              <input id="uploadArtist" type="text" maxlength="100" value="AI Sound Studio" placeholder="Tên nghệ sĩ" disabled>
             </div>
-            <div class="upload-field">
+            <div class="upload-field full">
               <label for="uploadGenre">Thể loại</label>
-              <select id="uploadGenre">
+              <select id="uploadGenre" disabled>
                 <option>AI Music</option>
                 <option>R&amp;B</option>
                 <option>Pop</option>
@@ -151,19 +169,15 @@
                 <option>Folk</option>
               </select>
             </div>
-            <div class="upload-field">
-              <label for="uploadPassword">Mã tải lên</label>
-              <input id="uploadPassword" type="password" autocomplete="off" placeholder="Nhập UPLOAD_SECRET">
-            </div>
             <div class="upload-field full upload-file">
               <label for="musicFile">File MP3</label>
-              <input id="musicFile" type="file" accept=".mp3,audio/mpeg">
+              <input id="musicFile" type="file" accept=".mp3,audio/mpeg" disabled>
               <small>Tối đa 50 MB • hiện tại hỗ trợ MP3</small>
             </div>
           </div>
 
           <div class="upload-actions">
-            <button class="btn btn-primary upload-submit" id="uploadMusicBtn" type="submit">🎵 Tải nhạc lên</button>
+            <button class="btn btn-primary upload-submit" id="uploadMusicBtn" type="submit" disabled>🎵 Tải nhạc lên</button>
             <span class="upload-health" id="uploadHealth">Đang kiểm tra máy chủ tải lên...</span>
           </div>
 
@@ -172,7 +186,7 @@
             <progress class="upload-progress" id="uploadProgress" value="0" max="100"></progress>
           </div>
 
-          <p class="upload-status" id="uploadStatus">Chọn một bài MP3 để bắt đầu.</p>
+          <p class="upload-status" id="uploadStatus">Đăng nhập và chờ cấp quyền để bắt đầu.</p>
 
           <div class="upload-result" id="uploadResult">
             <strong>Đã lưu file trên Cloudflare R2</strong>
@@ -180,7 +194,7 @@
             <div class="upload-actions"><button class="btn" id="playUploadedBtn" type="button">▶ Phát bài vừa tải</button></div>
           </div>
 
-          <div class="upload-security"><span>●</span><div>Mã tải lên chỉ được gửi qua HTTPS đến Worker trong lần tải này và không được lưu vào localStorage hay GitHub.</div></div>
+          <div class="upload-security"><span>●</span><div>Website không còn yêu cầu UPLOAD_SECRET. Khi tải nhạc, trình duyệt gửi access token của tài khoản đang đăng nhập; Worker kiểm tra token và quyền <code>can_upload</code> trước khi ghi file.</div></div>
         </form>
       </div>
     </section>
@@ -234,6 +248,30 @@
     </div>
   </footer>
 
+  <div class="auth-modal" id="authModal" aria-hidden="true">
+    <div class="auth-panel" role="dialog" aria-modal="true" aria-labelledby="authTitle">
+      <button class="auth-close" id="authCloseBtn" type="button" aria-label="Đóng">×</button>
+      <h3 id="authTitle">Tài khoản AI Sound Studio</h3>
+      <p>Đăng nhập để đồng bộ danh tính và sử dụng các tính năng được cấp quyền.</p>
+      <div class="auth-tabs">
+        <button class="auth-tab active" id="authModeLogin" type="button">Đăng nhập</button>
+        <button class="auth-tab" id="authModeSignup" type="button">Đăng ký</button>
+      </div>
+      <form class="auth-form" id="authForm">
+        <div class="auth-field">
+          <label for="authEmail">Email</label>
+          <input id="authEmail" type="email" autocomplete="email" required placeholder="email@example.com">
+        </div>
+        <div class="auth-field">
+          <label for="authPassword">Mật khẩu</label>
+          <input id="authPassword" type="password" autocomplete="current-password" minlength="6" required placeholder="Ít nhất 6 ký tự">
+        </div>
+        <button class="btn btn-primary auth-submit" id="authSubmitBtn" type="submit">Đăng nhập</button>
+        <p class="auth-message" id="authMessage"></p>
+      </form>
+    </div>
+  </div>
+
   <div class="mini-player" id="miniPlayer" aria-label="Mini player">
     <div class="mini-cover"><img id="miniCover" alt="Bìa bài hát"><div id="miniCoverFallback"></div></div>
     <div class="mini-info"><strong id="miniTitle">Ánh sáng và bóng tối</strong><span id="miniArtist">AI Sound Studio</span></div>
@@ -246,6 +284,8 @@
   </div>
 
   <div class="toast" id="toast"></div>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="auth.js"></script>
   <script src="script.js"></script>
   <script src="upload.js"></script>
 </body>
