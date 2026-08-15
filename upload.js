@@ -1,5 +1,5 @@
 const MUSIC_UPLOAD_WORKER = 'https://ai-sound-upload.buidoihn1990.workers.dev';
-const UPLOADED_TRACKS_KEY = 'aiSoundStudioUploadedTracksV1';
+const LEGACY_UPLOADED_TRACKS_KEY = 'aiSoundStudioUploadedTracksV1';
 const MAX_UPLOAD_BYTES = 50 * 1024 * 1024;
 
 const uploadForm = document.getElementById('musicUploadForm');
@@ -21,6 +21,7 @@ const playUploadedBtn = document.getElementById('playUploadedBtn');
 let lastUploadedTrackIndex = -1;
 
 function setUploadStatus(message, type = '') {
+  if (!uploadStatus) return;
   uploadStatus.textContent = message;
   uploadStatus.className = `upload-status${type ? ` ${type}` : ''}`;
 }
@@ -36,64 +37,123 @@ function formatDuration(seconds) {
   return `${minutes}:${String(secs).padStart(2, '0')}`;
 }
 
-function readAudioDuration(file) {
+function readAudioDurationSeconds(file) {
   return new Promise((resolve) => {
     const objectUrl = URL.createObjectURL(file);
     const probe = document.createElement('audio');
     probe.preload = 'metadata';
     probe.onloadedmetadata = () => {
-      const value = probe.duration;
+      const value = Number.isFinite(probe.duration) ? Math.round(probe.duration) : 0;
       URL.revokeObjectURL(objectUrl);
-      resolve(formatDuration(value));
+      resolve(value);
     };
     probe.onerror = () => {
       URL.revokeObjectURL(objectUrl);
-      resolve('--:--');
+      resolve(0);
     };
     probe.src = objectUrl;
   });
 }
 
-function saveUploadedTracks() {
-  try {
-    const uploaded = tracks.filter(track => track.uploadedFromR2).map(track => ({
-      title: track.title,
-      artist: track.artist,
-      genre: track.genre,
-      src: track.src,
-      cover: track.cover || '',
-      durationHint: track.durationHint || '--:--',
-      uploadedFromR2: true
-    }));
-    localStorage.setItem(UPLOADED_TRACKS_KEY, JSON.stringify(uploaded));
-  } catch {}
+function refreshPlaylistUI() {
+  renderQueue();
+  renderReleases();
+  updateTrackCards();
+  availableCount.textContent = `${tracks.filter(t => t.available !== false).length}/${tracks.length} bài có MP3`;
 }
 
-function restoreUploadedTracks() {
-  try {
-    const saved = JSON.parse(localStorage.getItem(UPLOADED_TRACKS_KEY) || '[]');
-    if (!Array.isArray(saved)) return;
-    saved.forEach(track => {
-      if (!track?.src || tracks.some(existing => existing.src === track.src)) return;
-      tracks.push({ ...track, available: true });
-    });
-    if (saved.length) {
-      renderQueue();
-      renderReleases();
-      availableCount.textContent = `${tracks.filter(t => t.available !== false).length}/${tracks.length} bài có MP3`;
-      detectAvailability();
+function toPlayerTrack(row) {
+  return {
+    title: row.title || 'Không tên',
+    artist: row.artist || 'AI Sound Studio',
+    genre: row.genre || 'AI Music',
+    src: row.audio_url,
+    cover: row.cover_url || '',
+    durationHint: formatDuration(Number(row.duration_seconds || 0)),
+    available: true,
+    uploadedFromD1: true,
+    d1Id: row.id || null,
+    r2Key: row.r2_key || ''
+  };
+}
+
+function mergeD1Tracks(rows) {
+  const serverUrls = new Set(rows.map(row => row.audio_url).filter(Boolean));
+
+  // D1 là nguồn dữ liệu chung cho các bài người dùng tải lên.
+  for (let i = tracks.length - 1; i >= 0; i--) {
+    if (tracks[i].uploadedFromD1 && !serverUrls.has(tracks[i].src)) {
+      tracks.splice(i, 1);
     }
-  } catch {}
+  }
+
+  rows.forEach(row => {
+    if (!row?.audio_url) return;
+    const incoming = toPlayerTrack(row);
+    const existingIndex = tracks.findIndex(track => track.src === incoming.src);
+
+    if (existingIndex >= 0) {
+      tracks[existingIndex] = { ...tracks[existingIndex], ...incoming };
+    } else {
+      tracks.push(incoming);
+    }
+  });
+
+  refreshPlaylistUI();
+}
+
+async function syncTracksFromD1(showStatus = false) {
+  if (showStatus && uploadHealth) {
+    uploadHealth.textContent = 'Đang đồng bộ playlist từ Cloudflare D1...';
+    uploadHealth.className = 'upload-health';
+  }
+
+  try {
+    const response = await fetch(`${MUSIC_UPLOAD_WORKER}/tracks`, {
+      cache: 'no-store'
+    });
+
+    if (!response.ok) throw new Error(`HTTP ${response.status}`);
+
+    const data = await response.json();
+    if (!data.ok || !Array.isArray(data.tracks)) throw new Error('Dữ liệu playlist không hợp lệ');
+
+    mergeD1Tracks(data.tracks);
+
+    // Bỏ dữ liệu localStorage cũ để D1 trở thành nguồn chung duy nhất.
+    try { localStorage.removeItem(LEGACY_UPLOADED_TRACKS_KEY); } catch {}
+
+    if (showStatus && uploadHealth) {
+      uploadHealth.textContent = `Máy chủ hoạt động • Đã đồng bộ ${data.tracks.length} bài từ D1`;
+      uploadHealth.className = 'upload-health online';
+    }
+
+    return true;
+  } catch (error) {
+    if (showStatus && uploadHealth) {
+      uploadHealth.textContent = 'Máy chủ hoạt động nhưng chưa đồng bộ được playlist D1';
+      uploadHealth.className = 'upload-health offline';
+    }
+    console.warn('Không đồng bộ được playlist D1:', error);
+    return false;
+  }
 }
 
 async function checkUploadServer() {
+  if (!uploadHealth) return;
   uploadHealth.textContent = 'Đang kiểm tra máy chủ tải lên...';
   uploadHealth.className = 'upload-health';
+
   try {
     const response = await fetch(`${MUSIC_UPLOAD_WORKER}/health`, { cache: 'no-store' });
     if (!response.ok) throw new Error('offline');
-    uploadHealth.textContent = 'Máy chủ tải lên đang hoạt động';
+
+    const data = await response.json().catch(() => ({}));
+    if (data.ok === false) throw new Error('health failed');
+
+    uploadHealth.textContent = 'Máy chủ tải lên + R2 + D1 đang hoạt động';
     uploadHealth.className = 'upload-health online';
+    await syncTracksFromD1(true);
   } catch {
     uploadHealth.textContent = 'Không kết nối được máy chủ tải lên';
     uploadHealth.className = 'upload-health offline';
@@ -130,11 +190,21 @@ uploadForm?.addEventListener('submit', async (event) => {
   uploadProgress.value = 0;
   uploadPercent.textContent = '0%';
   uploadResult.classList.remove('show');
-  setUploadStatus('Đang chuẩn bị file...');
+  setUploadStatus('Đang đọc thông tin bài hát...');
 
-  const durationHint = await readAudioDuration(file);
+  const durationSeconds = await readAudioDurationSeconds(file);
+  const durationHint = formatDuration(durationSeconds);
+
+  const params = new URLSearchParams({
+    name: file.name,
+    title,
+    artist,
+    genre,
+    duration: String(durationSeconds)
+  });
+
   const xhr = new XMLHttpRequest();
-  const endpoint = `${MUSIC_UPLOAD_WORKER}/upload?name=${encodeURIComponent(file.name)}`;
+  const endpoint = `${MUSIC_UPLOAD_WORKER}/upload?${params.toString()}`;
 
   xhr.open('PUT', endpoint);
   xhr.setRequestHeader('Authorization', `Bearer ${secret}`);
@@ -148,58 +218,63 @@ uploadForm?.addEventListener('submit', async (event) => {
     setUploadStatus(`Đang tải ${file.name} lên R2...`);
   };
 
-  xhr.onload = () => {
+  xhr.onload = async () => {
     uploadButton.disabled = false;
     uploadButton.textContent = '🎵 Tải nhạc lên';
     uploadPassword.value = '';
 
+    let data = null;
+    try { data = JSON.parse(xhr.responseText); } catch {}
+
     if (xhr.status < 200 || xhr.status >= 300) {
-      let message = `Tải lên thất bại (${xhr.status}).`;
+      let message = data?.error || `Tải lên thất bại (${xhr.status}).`;
       if (xhr.status === 401) message = 'Mã tải lên không đúng.';
       else if (xhr.status === 413) message = 'File quá lớn.';
       else if (xhr.status === 415) message = 'File không phải MP3 hợp lệ.';
-      else if (xhr.responseText) message += ` ${xhr.responseText}`;
       setUploadStatus(message, 'error');
       return;
     }
 
     try {
-      const data = JSON.parse(xhr.responseText);
-      if (!data.publicUrl) throw new Error('Missing public URL');
+      if (!data?.publicUrl) throw new Error('Missing public URL');
 
       const newTrack = {
-        title,
-        artist,
-        genre,
+        title: data.title || title,
+        artist: data.artist || artist,
+        genre: data.genre || genre,
         src: data.publicUrl,
         cover: '',
-        durationHint,
+        durationHint: formatDuration(Number(data.durationSeconds || durationSeconds)) || durationHint,
         available: true,
-        uploadedFromR2: true
+        uploadedFromD1: true,
+        d1Id: data.id || null,
+        r2Key: data.key || ''
       };
 
       const existingIndex = tracks.findIndex(track => track.src === newTrack.src);
       if (existingIndex >= 0) {
-        tracks[existingIndex] = newTrack;
+        tracks[existingIndex] = { ...tracks[existingIndex], ...newTrack };
         lastUploadedTrackIndex = existingIndex;
       } else {
         tracks.push(newTrack);
         lastUploadedTrackIndex = tracks.length - 1;
       }
 
-      saveUploadedTracks();
-      renderQueue();
-      renderReleases();
-      availableCount.textContent = `${tracks.filter(t => t.available !== false).length}/${tracks.length} bài có MP3`;
+      refreshPlaylistUI();
 
       uploadProgress.value = 100;
       uploadPercent.textContent = '100%';
       uploadResultLink.href = data.publicUrl;
       uploadResultLink.textContent = data.publicUrl;
       uploadResult.classList.add('show');
-      setUploadStatus(`Đã tải “${title}” lên Cloudflare R2 và thêm vào playlist trên trình duyệt này.`, 'success');
-      toast(`Đã tải lên: ${title}`);
-    } catch {
+      setUploadStatus(`Đã tải “${newTrack.title}” lên R2 và lưu vào D1. Mọi thiết bị sẽ thấy bài này.`, 'success');
+      toast(`Đã xuất bản: ${newTrack.title}`);
+
+      await syncTracksFromD1(false);
+      const syncedIndex = tracks.findIndex(track => track.src === newTrack.src);
+      if (syncedIndex >= 0) lastUploadedTrackIndex = syncedIndex;
+    } catch (error) {
+      console.error(error);
       setUploadStatus('File đã tải lên nhưng website không đọc được phản hồi của máy chủ.', 'error');
     }
   };
@@ -220,5 +295,4 @@ playUploadedBtn?.addEventListener('click', () => {
   document.getElementById('mainPlayer')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
 });
 
-restoreUploadedTracks();
 checkUploadServer();
