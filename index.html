@@ -15,7 +15,7 @@
     <div class="container nav">
       <a class="brand" href="#home"><span class="logo"></span>AI SOUND STUDIO</a>
       <nav class="links">
-        <a href="#home">Trang chủ</a><a href="#discover">Phát hiện</a><a href="#playlists">Danh sách phát</a><a href="#upload">Tải lên</a><a href="#releases">Phát hành</a><a href="#about">Về</a>
+        <a href="#home">Trang chủ</a><a href="#discover">Phát hiện</a><a href="#playlists">Danh sách phát</a><a href="#upload">Tải lên</a><a href="#releases">Phát hành</a><a href="#community">Cộng đồng</a>
       </nav>
       <div class="auth-nav">
         <button class="btn btn-primary auth-open" id="authOpenBtn" type="button">Đăng nhập</button>
@@ -32,7 +32,7 @@
   </header>
 
   <div class="mobile-menu" id="mobileMenu">
-    <a href="#home">Trang chủ</a><a href="#discover">Phát hiện</a><a href="#playlists">Danh sách phát</a><a href="#upload">Tải nhạc lên</a><a href="#releases">Phát hành</a><a href="#about">Về</a>
+    <a href="#home">Trang chủ</a><a href="#discover">Phát hiện</a><a href="#playlists">Danh sách phát</a><a href="#upload">Tải nhạc lên</a><a href="#releases">Phát hành</a><a href="#community">Cộng đồng</a>
   </div>
 
   <main>
@@ -206,17 +206,13 @@
       </div>
     </section>
 
-    <section class="alt" id="about">
+    <section class="alt community-section" id="community">
       <div class="container">
-        <div class="section-head"><span class="eyebrow">QUY TRÌNH SÁNG TẠO</span><h2>Từ ý tưởng AI đến bài hát hoàn chỉnh</h2></div>
-        <div class="workflow">
-          <div class="step"><b>01</b><h3>Generate</h3><p>Tạo ý tưởng và bản demo bằng SunoAI.</p></div>
-          <div class="step"><b>02</b><h3>Produce</h3><p>Sắp xếp và chỉnh sửa bài hát trong Cubase 15.</p></div>
-          <div class="step"><b>03</b><h3>Mix</h3><p>Cân bằng vocal, nhạc cụ và hiệu ứng.</p></div>
-          <div class="step"><b>04</b><h3>Master</h3><p>Hoàn thiện âm lượng và chất lượng âm thanh cuối cùng.</p></div>
-          <div class="step"><b>05</b><h3>Release</h3><p>Phát hành bài hát hoàn chỉnh trên YouTube.</p></div>
+        <div class="section-head"><span class="eyebrow">CỘNG ĐỒNG AI SOUND STUDIO</span><h2>Bài hát mới được cộng đồng tải lên</h2></div>
+        <p class="community-copy">Các bài hát được người dùng có quyền tải lên sẽ tự động xuất hiện tại đây sau khi lưu vào Cloudflare R2 và D1. Nhấn vào một bài để phát ngay trong player.</p>
+        <div class="grid4" id="communityUploadList">
+          <div class="community-empty">Đang tải các bài hát mới từ cộng đồng...</div>
         </div>
-        <div class="flow">SunoAI <span>→</span> Cubase 15 <span>→</span> Mix <span>→</span> Master <span>→</span> <em>YouTube</em></div>
       </div>
     </section>
 
@@ -242,8 +238,8 @@
   <footer>
     <div class="container footer-grid">
       <div><div class="brand"><span class="logo"></span>AI SOUND STUDIO</div><p>Âm nhạc được tạo ra vượt mọi giới hạn.</p></div>
-      <div><h4>KHÁM PHÁ</h4><a href="#home">Trang chủ</a><a href="#discover">Phát hiện</a><a href="#playlists">Danh sách phát</a><a href="#upload">Tải nhạc lên</a><a href="#releases">Phát hành</a></div>
-      <div><h4>THÔNG TIN</h4><a href="#about">Về chúng tôi</a><a href="#">Liên hệ</a><a href="#">Chính sách bảo mật</a></div>
+      <div><h4>KHÁM PHÁ</h4><a href="#home">Trang chủ</a><a href="#discover">Phát hiện</a><a href="#playlists">Danh sách phát</a><a href="#upload">Tải nhạc lên</a><a href="#releases">Phát hành</a><a href="#community">Cộng đồng</a></div>
+      <div><h4>THÔNG TIN</h4><a href="#community">Bài hát cộng đồng</a><a href="#">Liên hệ</a><a href="#">Chính sách bảo mật</a></div>
       <div><h4>THEO DÕI</h4><a href="#">YouTube</a><a href="#">TikTok</a><a href="#">Instagram</a></div>
     </div>
   </footer>
@@ -288,6 +284,7 @@
   <script src="auth.js"></script>
   <script src="script.js"></script>
   <script src="upload.js"></script>
+  <script src="community.js"></script>
   <script src="admin-delete.js"></script>
 </body>
 </html>
